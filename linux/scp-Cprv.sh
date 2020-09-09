@@ -15,6 +15,8 @@ if [ -z "${user}" ] || [ -z "${host}" ] || [ -z "${src}" ]; then
 fi
 if [ -z "${key}" ]; then
   key="$HOME/.ssh/id_rsa"
+else
+  [ -f "${key}" ] || key="$HOME/.ssh/${key}"
 fi
 if [ -z "${dst}" ]; then
   dst="$HOME"

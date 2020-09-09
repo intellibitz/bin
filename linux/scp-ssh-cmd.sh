@@ -16,6 +16,8 @@ if [ -z "${user}" ] || [ -z "${host}" ] || [ -z "${src}" ]; then
 fi
 if [ -z "${key}" ]; then
   key="$HOME/.ssh/id_rsa"
+else
+  [ -f "${key}" ] || key="$HOME/.ssh/${key}"
 fi
 if [ -z "${dst}" ]; then
   dst="$HOME"
@@ -24,5 +26,5 @@ if [ -z "${cmd}" ]; then
   cmd="$HOME/${src}"
 fi
 
-scp-Cprv.sh -u "${user}"  -k "${key}" -h "${host}" -f "${src}" -d "${dst}" &&
-  ssh-cmd.sh -h "${host}" -k "${key}" -c "${cmd}"
+scp-Cprv.sh -k "${key}" -u "${user}" -h "${host}" -s "${src}" -d "${dst}" &&
+  ssh-cmd.sh -k "${key}" -h "${host}" -c "${cmd}"

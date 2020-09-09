@@ -1,6 +1,7 @@
-USAGE="usage: $0 [-k sshkey] -h hostname [-c command]"
-while getopts h:k:c: flag; do
+USAGE="usage: $0 [-k sshkey] [-u username] -h hostname [-c command]"
+while getopts u:h:k:c: flag; do
   case "${flag}" in
+  u) user=${OPTARG} ;;
   h) host=${OPTARG} ;;
   k) key=${OPTARG} ;;
   c) cmd=${OPTARG} ;;
@@ -13,11 +14,20 @@ if [ -z "${host}" ]; then
 fi
 if [ -z "${key}" ]; then
   key="$HOME/.ssh/id_rsa"
+else
+  [ -f "${key}" ] || key="$HOME/.ssh/${key}"
+fi
+if [ -z "${user}" ]; then
+  user="$USER"
 fi
 if [ -z "${cmd}" ]; then
-  cmd="ls"
+  cmd="
+  echo 'entering ${host}'; \
+  ls -al ;\
+   echo 'exiting from ${host}'
+   "
 fi
 #echo "${cmd}"
-ssh -i "${key}" "${host}" -T <<EOSSH
+ssh -i "${key}" "${user}"@"${host}" -T <<EOSSH
 sh -c "${cmd}"
 EOSSH

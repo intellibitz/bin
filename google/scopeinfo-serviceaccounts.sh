@@ -1,7 +1,19 @@
 #!/bin/bash
 #https://cloud.google.com/sdk/docs/scripting-gcloud
+USAGE="usage:$0  -p project"
+
+while getopts p: flag; do
+  case "${flag}" in
+  p) project=${OPTARG} ;;
+  *) echo "${USAGE}" ;;
+  esac
+done
+if [ -z "${project}" ]; then
+  echo "${USAGE}"
+  exit 1
+fi
 for scopesInfo in $(
-    gcloud compute instances list --filter=name:sara-ineya-ce-vm1 \
+    gcloud compute instances list --filter=name:"${project}" \
         --format="csv[no-heading](name,id,serviceAccounts[].email.list(),
                       serviceAccounts[].scopes[].map().list(separator=;))")
 do

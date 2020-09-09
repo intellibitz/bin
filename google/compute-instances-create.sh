@@ -1,16 +1,18 @@
+USAGE="usage:$0  -n name -p project -s serviceaccount"
+
 while getopts n:p:s: flag; do
   case "${flag}" in
   n) name=${OPTARG} ;;
   p) project=${OPTARG} ;;
   s) serviceaccount=${OPTARG} ;;
-  *) echo "usage:$0 -n name -p project -s serviceaccount" ;;
+  *) echo "${USAGE}" ;;
   esac
 done
 if [ -z "${name}" ] || [ -z "${project}" ] || [ -z "${serviceaccount}" ]; then
-  echo "usage:$0 -n name -p project -s serviceaccount"
+  echo "${USAGE}"
   exit 1
 fi
-gcloud compute instances delete "${name}"
+gcloud compute instances delete "${name}";
 gcloud compute instances create "${name}" \
   --project="${project}" \
   --machine-type=e2-macro \

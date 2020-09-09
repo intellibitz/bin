@@ -13,6 +13,8 @@ if [ -z "${host}" ]; then
 fi
 if [ -z "${key}" ]; then
   key="$HOME/.ssh/id_rsa"
+else
+  [ -f "${key}" ] || key="$HOME/.ssh/${key}"
 fi
 if [ -z "${user}" ]; then
   user="$USER"

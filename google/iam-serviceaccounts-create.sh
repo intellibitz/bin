@@ -10,7 +10,7 @@ if [ -z "${name}" ] || [ -z "${project}" ]; then
   exit 1
 fi
 
-gcloud iam service-accounts delete "${name}"
+gcloud iam service-accounts delete "${name}";
 gcloud iam service-accounts create "${name}" \
   --project="${project}" \
   --description="${project} Project Service Account" \

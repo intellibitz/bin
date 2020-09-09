@@ -21,13 +21,16 @@ if [ -z "${user}" ]; then
   user="$USER"
 fi
 if [ -z "${cmd}" ]; then
-  cmd="
-  echo 'entering ${host}'; \
-  ls -al ;\
-   echo 'exiting from ${host}'
-   "
+  cmd=" \
+  ls -al ; \
+   \echo; "
 fi
 #echo "${cmd}"
 ssh -i "${key}" "${user}"@"${host}" -T <<EOSSH
-sh -c "${cmd}"
+sh -c " \
+  echo 'entering ${host}'; \
+  \echo; \
+  ${cmd} \
+   echo 'exiting from ${host}'; \
+  \echo; "
 EOSSH

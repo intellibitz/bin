@@ -1,12 +1,14 @@
+USAGE="usage:$0 -n serviceaccountname -p project"
+
 while getopts n:p: flag; do
   case "${flag}" in
   n) name=${OPTARG} ;;
   p) project=${OPTARG} ;;
-  *) echo "usage:$0 -n name -p project" ;;
+  *) echo "${USAGE}" ;;
   esac
 done
 if [ -z "${name}" ] || [ -z "${project}" ]; then
-  echo "usage:$0 -n name -p project"
+  echo "${USAGE}"
   exit 1
 fi
 

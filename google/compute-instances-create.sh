@@ -1,4 +1,4 @@
-USAGE="usage:$0  -n name -p project -s serviceaccount"
+USAGE="usage:$0  -n name -p project [-s serviceaccount]"
 
 while getopts n:p:s: flag; do
   case "${flag}" in
@@ -8,18 +8,25 @@ while getopts n:p:s: flag; do
   *) echo "${USAGE}" ;;
   esac
 done
-if [ -z "${name}" ] || [ -z "${project}" ] || [ -z "${serviceaccount}" ]; then
+if [ -z "${name}" ] || [ -z "${project}" ] ]; then
   echo "${USAGE}"
   exit 1
 fi
-gcloud compute instances delete "${name}";
+if [ -z "${serviceaccount}" ]; then
+  serviceaccount="default"
+else
+  serviceaccount="${serviceaccount}"@"${project}".iam.gserviceaccount.com
+fi
+gcloud compute instances delete "${name}"
 gcloud compute instances create "${name}" \
   --project="${project}" \
-  --machine-type=e2-macro \
+  --machine-type=e2-micro \
+  --boot-disk-size=10GB \
+  --boot-disk-type=pd-standard \
   --image-family=ubuntu-minimal-2004-lts \
   --image-project=ubuntu-os-cloud \
   --network=default \
   --zone=us-central1-a \
-  --service-account="${serviceaccount}"@"${project}".iam.gserviceaccount.com \
-  --scopes="https://www.googleapis.com/auth/cloud-platform"
+  --scopes=default,cloud-platform,compute-rw \
+  --service-account="${serviceaccount}"
 gcloud compute instances list

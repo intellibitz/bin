@@ -21,4 +21,5 @@ fi
 if [ -z "${dst}" ]; then
   dst="$HOME"
 fi
+echo "running:$0 -k ${key} -Cprv -u ${user} -h ${host} -s ${src} -d ${dst}"
 scp -i "${key}" -Cprv "${src}" "$user"@"$host":"${dst}"

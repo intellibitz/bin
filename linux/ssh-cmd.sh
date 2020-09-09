@@ -26,6 +26,7 @@ if [ -z "${cmd}" ]; then
    \echo; "
 fi
 #echo "${cmd}"
+echo "running:$0 -k ${key} -u ${user} -h ${host}"
 ssh -i "${key}" "${user}"@"${host}" -T <<EOSSH
 sh -c " \
   echo 'entering ${host}'; \

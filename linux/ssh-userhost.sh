@@ -19,4 +19,5 @@ fi
 if [ -z "${user}" ]; then
   user="$USER"
 fi
+echo "running:$0 -k ${key} -u ${user} -h ${host}"
 ssh -i "${key}" "${user}"@"${host}" || echo "${USAGE}"

@@ -1,6 +1,6 @@
 #!/usr/bin/expect
 set timeout -1
-exp_internal 1
+#exp_internal 1
 if { $argc < 2 } {
     puts "Usage: $argv0 user pass"
     exit 1

@@ -1,5 +1,6 @@
 #!/usr/bin/expect
 set timeout -1
+#exp_internal 1
 if { $argc != 4 } {
     puts "Usage: $argv0 host user pass command"
     exit 1
